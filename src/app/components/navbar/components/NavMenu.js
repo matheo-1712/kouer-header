@@ -15,21 +15,22 @@ const navItems = [
 
 export default function NavMenu() {
 
-    <div className="flex justify-between items-center py-2 px-6">
-        <div className="container mx-auto flex justify-around">
-            {navItems.map((item) => (
-                <a
-                    key={item.id}
-                    href={item.link}
-                    className="flex flex-col items-center text-center text-gray-600 hover:text-green-600"
-                >
-                    <img src={item.img} alt={item.title} className="h-10 w-10 mb-2" />
-                    <span className="text-sm">{item.title}</span>
-                    {/* Ligne verte sous l'élément actif */}
-                    <div className="h-1 w-12 bg-green-500 mt-2"></div>
-                </a>
-            ))}
+    return (
+        <div className="flex justify-between items-center py-2 px-6">
+            <div className="container mx-auto flex justify-around">
+                {navItems.map((item) => (
+                    <a
+                        key={item.id}
+                        href={item.link}
+                        className="flex flex-col items-center text-center text-gray-600 hover:text-green-600"
+                    >
+                        <img src={item.img} alt={item.title} className="h-10 w-10 mb-2" />
+                        <span className="text-sm">{item.title}</span>
+                        {/* Ligne verte sous l'élément actif */}
+                        <div className="h-1 w-12 bg-green-500 mt-2"></div>
+                    </a>
+                ))}
+            </div>
         </div>
-    </div>
-
+    )
 }
