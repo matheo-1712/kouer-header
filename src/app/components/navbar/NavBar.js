@@ -117,6 +117,7 @@ export default function NavMenu({ }) {
                             <img src="/logo.svg" alt="Kouer" className="h-8 md:h-12" />
                         </a>
                     </div>
+                    {/* Formulaire de recherche */}
                     <div className="hidden md:flex md:flex-grow md:max-w-lg lg:max-w-2xl px-2 order-1">
                         <div className="relative w-full">
                             <input
@@ -129,7 +130,18 @@ export default function NavMenu({ }) {
                             </button>
                         </div>
                     </div>
-                    <div className="flex items-center space-x-2 ml-4 order-2">
+
+                    {/* Favoris et Panier et Connexion */}
+                    <div className="flex items-center space-x-2 ml-4 order-3">
+                        <div className="flex items-center space-x-4">
+                            <img src="/icons/user.svg" alt="Utilisateur" className="h-6 md:h-8 w-6 md:w-8" />
+                            <div className="hidden md:flex flex-col items-start">
+                                <p className="text-green-600 text-xl font-bold transition-all duration-400">Identifiez-vous</p>
+                                <p className="text-gray-600 transition-all duration-400">Compte et commandes</p>
+                            </div>
+
+                            <img src="/icons/chevron_down.svg" alt="Chevron" className="hidden md:block h-6 md:h-8 w-6 md:w-8" />
+                        </div>
                         <a href="/" className="relative">
                             <img src="/icons/favoris.svg" alt="Favoris" className="h-6 md:h-8 w-6 md:w-8" />
                         </a>
@@ -140,13 +152,15 @@ export default function NavMenu({ }) {
                     </div>
                 </div>
 
-                <div className="md:hidden w-full max-w-xs mt-4 order-3 flex items-center">
+                <div className="md:hidden w-full max-w-xs mt-4 order-4 flex items-center">
+                    {/* Bouton de menu mobile */}
                     <button
                         className="mr-2"
                         onClick={toggleMenu}
                     >
                         <img src="/icons/menuIcon.svg" alt="Menu" className="h-5 w-5 text-green-600" />
                     </button>
+                    {/* Formulaire de recherche mobile */}
                     <div className="relative flex-1">
                         <input
                             type="text"
@@ -160,7 +174,7 @@ export default function NavMenu({ }) {
                 </div>
             </div>
 
-            {/* Menu principal ---------------------------------------- */}
+            {/* Nav Menu ---------------------------------------- */}
 
             <div className={`flex flex-col w-full hidden md:flex`}>
                 <div className={`flex justify-between items-center py-2 relative`}>
