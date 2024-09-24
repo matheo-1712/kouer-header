@@ -1,6 +1,13 @@
-"use client"; // Assurez-vous que ce fichier est un composant de type "client"
+"use client"; // composant de type "client"
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
+
+/* Composants */
+import MenuDeConnexion from './componentes/MenuDeConnexion';
+import Panier from './componentes/Panier';
+import Favoris from './componentes/Favoris';
+import SearchBar from './componentes/SearchBar';
+import NavBarMenu from './componentes/NavBarMenu';
 
 /* Tableau des données du menu de navigation */
 const navItems = [
@@ -79,38 +86,31 @@ const subMenuItems = [
     { id: '9-2', produits: ['Plateaux de fruits de mer', 'Buffets froids'] }
 ];
 
-export default function NavMenu({ }) {
+export default function NavMenu() {
 
+    /* Déclaration des états */
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [activeId, setActiveId] = useState(null);
     const [activeSubMenuId, setActiveSubMenuId] = useState(null);
 
+    /* Fonctions */
     const SubMenuToggle = (id) => {
         setActiveSubMenuId(activeSubMenuId === id ? null : id);
     };
 
-    const toggleMenu = () => {
+    const toggleMobileMenu = () => {
         setIsMenuOpen(prevState => !prevState);
     };
-
-    const submenuRef = useRef(null);
-    const menuRef = useRef(null);
-    const connexionMenuRef = useRef(null);
-
-    // Données par défaut du panier
-    const itemCount = 2;
-
-    // Données par défaut du prix du panier
-    const totalPrice = 25.99;
 
     // Filtrer les sous-menus en fonction de l'ID actif
     const filteredSubMenu = subMenuTitle.filter(item => item.id_item === activeId);
 
     return (
-        /* Navbar Header ---------------------------------------- */
+
+        /* Navbar-Header --------------------------------------------------------------------------------------------------------------------- */
         <div className="relative">
-             <div className="flex flex-col md:flex-row justify-between items-center px-4 md:px-8 py-4 mt-6 bg-white sticky top-0 z-50">
+            <div className="flex flex-col md:flex-row justify-between items-center px-4 md:px-8 py-4 mt-6 bg-white sticky top-0 z-50">
                 <div className="flex items-center justify-between w-full mb-4 md:mb-0">
                     <div className="flex justify-center items-center mr-4 md:flex-shrink-0 transition-opacity hover:opacity-75">
                         <a href="/">
@@ -118,70 +118,39 @@ export default function NavMenu({ }) {
                         </a>
                     </div>
                     {/* Formulaire de recherche */}
-                    <div className="hidden md:flex md:flex-grow md:max-w-lg lg:max-w-2xl px-2 order-1">
-                        <div className="relative w-full">
-                            <input
-                                type="text"
-                                placeholder="Quel produit recherchez-vous ?"
-                                className="w-full border border-gray-300 rounded-full py-3 px-4 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
-                            />
-                            <button className="absolute right-2 top-2" aria-label="Rechercher">
-                                <img src="/icons/search.svg" alt="Rechercher" className="h-5 w-5 text-green-600" />
-                            </button>
-                        </div>
-                    </div>
+                    <SearchBar />
 
-                    {/* Favoris et Panier et Connexion */}
-
-                    {/* Connexion */}
+                    {/* Connexion, Favoris, Panier */}
                     <div className="flex items-center space-x-2 ml-4 order-3">
-                        <div className="flex items-center space-x-4">
-                            <img src="/icons/user.svg" alt="Utilisateur" className="h-6 md:h-8 w-6 md:w-8" />
-                            <div className="relative inline-block text-left group">
-                                <div className="hidden md:flex flex-col items-start group-hover:flex">
-                                    <p className="text-green-600 text-xl font-bold transition-all duration-400">Identifiez-vous</p>
-                                    <p className="text-gray-600 transition-all duration-400">Compte et commandes</p>
-                                </div>
 
-                                <div className="absolute right-0 z-10 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out pointer-events-none group-hover:pointer-events-auto">
-                                    <div className="py-1">
-                                        <a href="/login" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Se connecter</a>
-                                        <a href="/register" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">S'inscrire</a>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <img src="/icons/chevron_down.svg" alt="Chevron" className="hidden md:block h-6 md:h-8 w-6 md:w-8" />
+                        {/* Connexion */}
+                        <div id='MenuDeConnexion'>
+                            <MenuDeConnexion />
                         </div>
+
                         {/* Favoris */}
-                        <a href="/" className="relative transition-opacity hover:opacity-75">
-                            <img src="/icons/favoris.svg" alt="Favoris" className="h-6 md:h-8 w-6 md:w-8" />
-                        </a>
+                        <div id='Favoris'>
+                            <Favoris />
+                        </div>
+
                         {/* Panier */}
-                        <a href="/" className="relative flex items-center space-x-1 transition-opacity hover:opacity-75">
-                            <div className="relative flex items-center ">
-                                <img src="/icons/panier.svg" alt="Panier" className="h-6 md:h-8 w-6 md:w-8" />
-                                {itemCount > 0 && (
-                                    <span className="absolute -top-2 -right-2 flex items-center justify-center h-6 w-6 bg-green-600 text-white rounded-full text-sm">
-                                        {itemCount}
-                                    </span>
-                                )}
-                            </div>
-                            <span className='p-3 text-green-600'>{totalPrice}€</span>
-                        </a>
+                        <div id='Panier'>
+                            <Panier />
+                        </div>
                     </div>
                 </div>
 
+                {/* Menu mobile */}
                 <div className="md:hidden w-full max-w-xs mt-4 order-4 flex items-center">
+
                     {/* Bouton de menu mobile */}
                     <button
                         className="mr-2"
-                        onClick={toggleMenu}
+                        onClick={toggleMobileMenu}
                     >
                         <img src="/icons/menuIcon.svg" alt="Menu" className="h-5 w-5 text-green-600" />
                     </button>
+
                     {/* Formulaire de recherche mobile */}
                     <div className="relative flex-1">
                         <input
@@ -194,70 +163,21 @@ export default function NavMenu({ }) {
                         </button>
                     </div>
                 </div>
+
             </div>
 
-            {/* Nav Menu ---------------------------------------- */}
-            <div className="relative">
-                <div
-                    ref={menuRef}
-                    className="flex flex-col w-full hidden md:flex"
-                    onMouseLeave={() => {
-                        setIsDropdownOpen(false);
-                    }}
-                >
-                    {/* Menu de navigation */}
-                    <div className="flex justify-between items-center py-2 relative">
-                        <div className="flex flex-wrap justify-between w-full">
-                            {navItems.map((item) => (
-                                <a
-                                    key={item.id}
-                                    href={item.link}
-                                    className={`flex flex-col items-center text-center text-gray-600 hover:text-green-600 border-b-2 border-transparent hover:border-green-600 transition-colors duration-400`}
-                                    style={{ flex: '1 1 calc(100% / 9)', minWidth: '200px' }}
-                                    onMouseEnter={() => {
-                                        setActiveId(item.id);
-                                        const hasProducts = subMenuItems.some((menuItem) => menuItem.id.startsWith(`${item.id}`));
-                                        if (hasProducts) {
-                                            setIsDropdownOpen(true);
-                                        } else {
-                                            setIsDropdownOpen(false);
-                                        }
-                                    }}
-                                >
-                                    <img src={item.img} alt={item.title} className="h-12 w-12 mb-0" />
-                                    <span className="text-lg whitespace-nowrap">{item.title}</span>
-                                </a>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-                {/* Sous-menu affiché juste en dessous du menu principal */}
-                {isDropdownOpen && activeId && (
-                    <div
-                        ref={submenuRef}
-                        className="absolute left-1/2 transform -translate-x-1/2 w-[90%] bg-white shadow-lg p-6 border rounded-md z-50 mt-0"
-                        onMouseEnter={() => setIsDropdownOpen(true)} // Garde le sous-menu ouvert quand la souris est sur le sous-menu
-                        onMouseLeave={() => setIsDropdownOpen(false)} // Ferme le sous-menu quand la souris quitte
-                    >
-                        <ul className="flex justify-start space-x-8">
-                            {filteredSubMenu.map((subMenu) => (
-                                <li key={subMenu.id} className="mb-4 w-full">
-                                    <a href={subMenu.link} className="text-gray-700 text-2xl hover:underline block mb-2">
-                                        {subMenu.title}
-                                    </a>
-                                    <ul className="grid grid-cols-1 gap-2 mt-4">
-                                        {subMenuItems.find((productItem) => productItem.id === subMenu.id)?.produits.map((product, index) => (
-                                            <li key={index} className="text-gray-700 text-lg text-left">
-                                                {product}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-            </div>
+            {/* Navbar-Menu  ---------------------------------------------------------------------------------------------------------------------  */}
+            <NavBarMenu
+                navItems={navItems}
+                subMenuItems={subMenuItems}
+                subMenuTitle={subMenuTitle}
+                isDropdownOpen={isDropdownOpen}
+                setIsDropdownOpen={setIsDropdownOpen}
+                activeId={activeId}
+                setActiveId={setActiveId}
+                SubMenuToggle={SubMenuToggle}
+                filteredSubMenu={filteredSubMenu}
+            />
 
             {/* Menu mobile */}
             {
@@ -268,8 +188,8 @@ export default function NavMenu({ }) {
                                 <div key={item.id}>
                                     <button
                                         onClick={() => {
-                                            SubMenuToggle(item.id); // Toggle le sous-menu
-                                            setActiveId(item.id); // Active l'ID du menu
+                                            SubMenuToggle(item.id); // Affiche le sous-menu
+                                            setActiveId(item.id); // Met à jour l'ID actif pour l'affichage des données correspondantes
                                         }}
                                         className={`flex items-center text-gray-600 hover:text-green-600 transition-all duration-400 py-2 w-full text-left`}
                                     >
