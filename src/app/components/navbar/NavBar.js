@@ -110,7 +110,7 @@ export default function NavMenu({ }) {
     return (
         /* Navbar Header ---------------------------------------- */
         <div className="relative">
-            <div className="flex flex-col md:flex-row justify-between items-center px-4 md:px-8 py-8 mt-6 bg-white sticky top-0 z-50">
+             <div className="flex flex-col md:flex-row justify-between items-center px-4 md:px-8 py-4 mt-6 bg-white sticky top-0 z-50">
                 <div className="flex items-center justify-between w-full mb-4 md:mb-0">
                     <div className="flex justify-center items-center mr-4 md:flex-shrink-0 transition-opacity hover:opacity-75">
                         <a href="/">
@@ -213,7 +213,7 @@ export default function NavMenu({ }) {
                                     key={item.id}
                                     href={item.link}
                                     className={`flex flex-col items-center text-center text-gray-600 hover:text-green-600 border-b-2 border-transparent hover:border-green-600 transition-colors duration-400`}
-                                    style={{ width: `${100 / navItems.length}%` }}
+                                    style={{ flex: '1 1 calc(100% / 9)', minWidth: '200px' }}
                                     onMouseEnter={() => {
                                         setActiveId(item.id);
                                         const hasProducts = subMenuItems.some((menuItem) => menuItem.id.startsWith(`${item.id}`));
