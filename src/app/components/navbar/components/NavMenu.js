@@ -104,8 +104,8 @@ export default function NavMenu() {
                             <a
                                 key={item.id}
                                 href={item.link}
-                                className={`flex flex-col items-center text-center text-gray-600 hover:text-green-600 transition-colors duration-400`}
-                                style={{ width: `${100 / navItems.length}%` }}
+                                className={`flex flex-col items-center text-center text-gray-600 border-b-2 border-transparent hover:border-green-600 hover:text-green-600 transition-all duration-400`}
+                                style={{ flex: '1 1 calc(100% / 9)', minWidth: '200px' }} // Ajustez le calc() selon le nombre d'éléments par ligne
                                 onMouseEnter={() => {
                                     setActiveId(item.id);
 
@@ -122,6 +122,7 @@ export default function NavMenu() {
                             </a>
                         ))}
                     </div>
+
                 </div>
             </div>
 
