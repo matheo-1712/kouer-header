@@ -94,15 +94,8 @@ export default function NavMenu({ }) {
         setIsMenuOpen(prevState => !prevState);
     };
 
-    const detailsActif = (itemId) => {
-        setActiveId(itemId);
-        const hasProducts = subMenuItems.some(menuItem => menuItem.id.startsWith(`${itemId}`));
-        setIsDropdownOpen(hasProducts);
-    };
-
-    const detailsInactif = () => {
-        setIsDropdownOpen(false);
-    };
+    const submenuRef = useRef(null);
+    const menuRef = useRef(null);
 
     // Filtrer les sous-menus en fonction de l'ID actif
     const filteredSubMenu = subMenuTitle.filter(item => item.id_item === activeId);
@@ -175,18 +168,32 @@ export default function NavMenu({ }) {
             </div>
 
             {/* Nav Menu ---------------------------------------- */}
-
-            <div className={`flex flex-col w-full hidden md:flex`}>
-                <div className={`flex justify-between items-center py-2 relative`}>
+            <div className="relative">
+            <div
+                ref={menuRef}
+                className="flex flex-col w-full hidden md:flex"
+                onMouseLeave={() => {
+                    setIsDropdownOpen(false); // Ferme le sous-menu quand la souris quitte le menu principal
+                }}
+            >
+                {/* Menu de navigation */}
+                <div className="flex justify-between items-center py-2 relative">
                     <div className="flex flex-wrap justify-between w-full">
-                        {navItems.map(item => (
+                        {navItems.map((item) => (
                             <a
                                 key={item.id}
                                 href={item.link}
-                                className={`flex flex-col items-center text-center text-gray-600 border-b-2 border-transparent hover:border-green-600 hover:text-green-600 transition-all duration-400`}
-                                style={{ flex: '1 1 calc(100% / 9)', minWidth: '200px' }}
-                                onMouseEnter={() => detailsActif(item.id)}
-                                onMouseLeave={detailsInactif}
+                                className={`flex flex-col items-center text-center text-gray-600 hover:text-green-600 transition-colors duration-400`}
+                                style={{ width: `${100 / navItems.length}%` }}
+                                onMouseEnter={() => {
+                                    setActiveId(item.id);
+                                    const hasProducts = subMenuItems.some((menuItem) => menuItem.id.startsWith(`${item.id}`));
+                                    if (hasProducts) {
+                                        setIsDropdownOpen(true);
+                                    } else {
+                                        setIsDropdownOpen(false);
+                                    }
+                                }}
                             >
                                 <img src={item.img} alt={item.title} className="h-12 w-12 mb-0" />
                                 <span className="text-lg whitespace-nowrap">{item.title}</span>
@@ -198,9 +205,10 @@ export default function NavMenu({ }) {
             {/* Sous-menu affiché juste en dessous du menu principal */}
             {isDropdownOpen && activeId && (
                 <div
+                    ref={submenuRef}
                     className="absolute left-1/2 transform -translate-x-1/2 w-[90%] bg-white shadow-lg p-6 border rounded-md z-50 mt-0"
                     onMouseEnter={() => setIsDropdownOpen(true)} // Garde le sous-menu ouvert quand la souris est sur le sous-menu
-                    onMouseLeave={detailsInactif} // Ferme le sous-menu quand la souris quitte
+                    onMouseLeave={() => setIsDropdownOpen(false)} // Ferme le sous-menu quand la souris quitte
                 >
                     <ul className="flex justify-start space-x-8">
                         {filteredSubMenu.map((subMenu) => (
@@ -208,7 +216,6 @@ export default function NavMenu({ }) {
                                 <a href={subMenu.link} className="text-gray-700 text-2xl hover:underline block mb-2">
                                     {subMenu.title}
                                 </a>
-
                                 <ul className="grid grid-cols-1 gap-2 mt-4">
                                     {subMenuItems.find((productItem) => productItem.id === subMenu.id)?.produits.map((product, index) => (
                                         <li key={index} className="text-gray-700 text-lg text-left">
@@ -221,41 +228,45 @@ export default function NavMenu({ }) {
                     </ul>
                 </div>
             )}
-            {/* Menu mobile */}
-            {isMenuOpen && (
-                <div className={`fixed left-0 bg-white shadow-lg z-50 lg:hidden h-full transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-                    <div className="flex flex-col w-64 p-4">
-                        {navItems.map(item => (
-                            <div key={item.id}>
-                                <button
-                                    onClick={() => {
-                                        SubMenuToggle(item.id); // Toggle le sous-menu
-                                        setActiveId(item.id); // Active l'ID du menu
-                                    }}
-                                    className={`flex items-center text-gray-600 hover:text-green-600 transition-all duration-400 py-2 w-full text-left`}
-                                >
-                                    <img src={item.img} alt={item.title} className="h-6 w-6 mr-2" />
-                                    <span>{item.title}</span>
-                                </button>
-                                {activeSubMenuId === item.id && (
-                                    <ul className="pl-4">
-                                        {filteredSubMenu.map(subCategory => (
-                                            <li key={subCategory.id} className="py-1">
-                                                <a
-                                                    href={subCategory.link}
-                                                    className="text-gray-600 hover:text-green-600 transition-all duration-400"
-                                                >
-                                                    {subCategory.title}
-                                                </a>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
         </div>
+
+            {/* Menu mobile */}
+            {
+                isMenuOpen && (
+                    <div className={`fixed left-0 bg-white shadow-lg z-50 lg:hidden h-full transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+                        <div className="flex flex-col w-64 p-4">
+                            {navItems.map(item => (
+                                <div key={item.id}>
+                                    <button
+                                        onClick={() => {
+                                            SubMenuToggle(item.id); // Toggle le sous-menu
+                                            setActiveId(item.id); // Active l'ID du menu
+                                        }}
+                                        className={`flex items-center text-gray-600 hover:text-green-600 transition-all duration-400 py-2 w-full text-left`}
+                                    >
+                                        <img src={item.img} alt={item.title} className="h-6 w-6 mr-2" />
+                                        <span>{item.title}</span>
+                                    </button>
+                                    {activeSubMenuId === item.id && (
+                                        <ul className="pl-4">
+                                            {filteredSubMenu.map(subCategory => (
+                                                <li key={subCategory.id} className="py-1">
+                                                    <a
+                                                        href={subCategory.link}
+                                                        className="text-gray-600 hover:text-green-600 transition-all duration-400"
+                                                    >
+                                                        {subCategory.title}
+                                                    </a>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )
+            }
+        </div >
     );
 };
