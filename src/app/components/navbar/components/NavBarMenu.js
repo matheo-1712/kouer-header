@@ -1,18 +1,6 @@
 // NavBarMenu.js
 import React from 'react';
 
-/* Props à passer à NavBarMenu.js            
-navItems={navItems}
-subMenuItems={subMenuItems}
-subMenuTitle={subMenuTitle}
-isDropdownOpen={isDropdownOpen}
-setIsDropdownOpen={setIsDropdownOpen}
-activeId={activeId}
-setActiveId={setActiveId}
-SubMenuToggle={SubMenuToggle}
-filteredSubMenu={filteredSubMenu}
-*/
-
 export default function NavBarMenu({ navItems, subMenuItems, subMenuTitle, isDropdownOpen, setIsDropdownOpen, activeId, setActiveId, SubMenuToggle, filteredSubMenu }) {
     return (
         <div className="relative">

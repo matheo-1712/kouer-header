@@ -1,4 +1,6 @@
 
+/* Component Favoris */
+
 export default function Favoris() {
     return (
         <a href="/" className="relative transition-opacity hover:opacity-75">

@@ -1,6 +1,7 @@
 export default function SearchBar() {
     return (
         <div className="hidden md:flex md:flex-grow md:max-w-lg lg:max-w-2xl px-2 order-1">
+            {/* Barre de recherche */}
             <div className="relative w-full">
                 <input
                     type="text"

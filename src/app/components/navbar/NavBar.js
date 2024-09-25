@@ -3,11 +3,11 @@
 import { useState } from 'react';
 
 /* Composants */
-import MenuDeConnexion from './componentes/MenuDeConnexion';
-import Panier from './componentes/Panier';
-import Favoris from './componentes/Favoris';
-import SearchBar from './componentes/SearchBar';
-import NavBarMenu from './componentes/NavBarMenu';
+import MenuDeConnexion from './components/MenuDeConnexion';
+import Panier from './components/Panier';
+import Favoris from './components/Favoris';
+import SearchBar from './components/SearchBar';
+import NavBarMenu from './components/NavBarMenu';
 
 /* Tableau des données du menu de navigation */
 const navItems = [
@@ -163,7 +163,6 @@ export default function NavMenu() {
                         </button>
                     </div>
                 </div>
-
             </div>
 
             {/* Navbar-Menu  ---------------------------------------------------------------------------------------------------------------------  */}
@@ -179,7 +178,7 @@ export default function NavMenu() {
                 filteredSubMenu={filteredSubMenu}
             />
 
-            {/* Menu mobile */}
+            {/* Sous-Menu mobile de choix de produit */}
             {
                 isMenuOpen && (
                     <div className={`fixed left-0 bg-white shadow-lg z-50 lg:hidden h-full transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
@@ -216,6 +215,9 @@ export default function NavMenu() {
                     </div>
                 )
             }
+            <div id="MobileMenuDeConnexion">
+             {/* Menu mobile mis ici grâce à un portail React */}
+             </div>
         </div >
     );
 };
